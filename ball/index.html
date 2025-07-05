@@ -1,87 +1,89 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <title>PushPlus 发送测试</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background: linear-gradient(to right, #74ebd5, #ACB6E5);
-            /* 渐变背景色 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PushPlus 发送测试</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
 
-        .button-container {
-            text-align: center;
-        }
+    .button-container {
+      text-align: center;
+    }
 
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            color: white;
-            background-color: #4a90e2;
-            /* 按钮背景色 */
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease;
-        }
+    button {
+      padding: 25px 40px; /* 比原来更大 */
+      font-size: 24px;     /* 更大的字体 */
+      color: white;
+      background-color: #4a90e2;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+    }
 
-        button:hover {
-            background-color: #357ABD;
-            /* 鼠标悬停颜色 */
-        }
-    </style>
+    button:hover {
+      background-color: #357ABD;
+    }
+
+    /* 手机端额外适配 */
+    @media (max-width: 600px) {
+      button {
+        width: 80vw;       /* 宽度占屏幕 80% */
+        font-size: 22px;   /* 手机上字体稍小一点更合适 */
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <div class="button-container">
-        <button onclick="sendPush()">呼叫</button>
-    </div>
+  <div class="button-container">
+    <button onclick="sendPush()">呼叫</button>
+  </div>
 
-    <script>
-        function sendPush() {
-            const url = "https://www.pushplus.plus\/\/send";
-            const payload = {
-                token: "f4adc67d299e4ec0834991900024a5bf",
-                title: "11",
-                content: "111",
-                template: "html",
-                channel: "wechat",
-                webhook: "",
-                pre: ""
-            };
+  <script>
+    function sendPush() {
+      const url = "https://www.pushplus.plus/send";
+      const payload = {
+        token: "f4adc67d299e4ec0834991900024a5bf",
+        title: "11",
+        content: "111",
+        template: "html",
+        channel: "wechat",
+        webhook: "",
+        pre: ""
+      };
 
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('网络响应失败');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // alert("请求成功！响应数据:\n" + JSON.stringify(data));
-                    alert("呼叫成功！请稍后~");
-                })
-                .catch(error => {
-                    console.error("请求失败:", error);
-                    alert("请求失败: " + error.message);
-                });
-        }
-    </script>
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('网络响应失败');
+          }
+          return response.json();
+        })
+        .then(data => {
+          alert("呼叫成功！请稍后~");
+        })
+        .catch(error => {
+          console.error("请求失败:", error);
+          alert("请求失败: " + error.message);
+        });
+    }
+  </script>
 </body>
-
 </html>

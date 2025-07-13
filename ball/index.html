@@ -1,128 +1,83 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>呼叫老板</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: linear-gradient(to right, #74ebd5, #ACB6E5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-    }
-
-    .button-container {
-      text-align: center;
-      width: 90%;
-    }
-
-    button {
-      padding: 20px 40px;
-      font-size: 24px;
-      min-width: 280px;
-      min-height: 60px;
-      color: white;
-      background-color: #4a90e2;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #357ABD;
-    }
-
-    /* 手机端适配 */
-    @media (max-width: 600px) {
-      button {
-        width: 90vw;       /* 宽度占屏幕 90% */
-        font-size: 26px;   /* 更大字号 */
-        min-height: 70px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="button-container">
-    <button onclick="sendPush()">呼叫</button>
-  </div>
-
-<!--   <script>
-    function sendPush() {
-      const url = "https://www.pushplus.plus/send";
-      const payload = {
-        token: "f4adc67d299e4ec0834991900024a5bf",
-        title: "买水",
-        content: "有人买水了!!!!",
-        template: "html",
-        channel: "mail",
-        webhook: "163",
-        pre: ""
-      };
-
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('网络响应失败');
-          }
-          return response.json();
-        })
-        .then(data => {
-          alert("呼叫成功！请稍后~");
-        })
-        .catch(error => {
-          console.error("请求失败:", error);
-          alert("请求失败: " + error.message);
-        });
-    }
-  </script> -->
-  <script>
-  function sendPush() {
-    const url = "https://www.pushplus.plus/send";
-    const payload = {
-      token: "f4adc67d299e4ec0834991900024a5bf",
-      title: "买水",
-      content: "有人买水啦!!!",
-      template: "html",
-      channel: "mail",
-      webhook: "163",
-      pre: ""  // 注意：原 `"pre". ""` 是语法错误，已更正为 `"pre": ""`
-    };
-
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('网络响应失败');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呼叫老板</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(to right, #74ebd5, #ACB6E5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
         }
-        return response.json();
-      })
-      .then(data => {
-        alert("呼叫成功！请稍后~");
-      })
-      .catch(error => {
-        console.error("请求失败:", error);
-        alert("请求失败: " + error.message);
-      });
-  }
-</script>
+
+        .button-container {
+            text-align: center;
+            width: 90%;
+        }
+
+        button {
+            padding: 20px 40px;
+            font-size: 24px;
+            min-width: 280px;
+            min-height: 60px;
+            color: white;
+            background-color: #4a90e2;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+
+        /* 手机端适配 */
+        @media (max-width: 600px) {
+            button {
+                width: 90vw;
+                /* 宽度占屏幕 90% */
+                font-size: 26px;
+                /* 更大字号 */
+                min-height: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="button-container">
+        <button onclick="sendPush()">呼叫</button>
+    </div>
+
+    <script>
+        function sendPush() {
+            // 调用本地 Flask /notify 接口
+            fetch('http://xg-4.frp.one:55045/notify')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应失败');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    alert(data); // 显示 Flask 返回的提示信息，如“语音提醒已播报！”
+                })
+                .catch(error => {
+                    console.error("请求失败:", error);
+                    alert("请求失败: " + error.message);
+                });
+        }
+
+    </script>
 </body>
+
 </html>
